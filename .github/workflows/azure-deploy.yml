@@ -28,7 +28,6 @@ jobs:
       - name: Make scripts executable
         run: |
           chmod +x azuredeploy.sh
-          chmod +x startup.sh
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -39,18 +38,6 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --no-dev --optimize-autoloader --no-interaction
-
-      - name: Set custom startup script for App Service
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az webapp config set \
-              --name ${{ env.AZURE_WEBAPP_NAME }} \
-              --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
-              --startup-file "/home/site/wwwroot/startup.sh"
-
-      - name: Wait for App Service to stabilize
-        run: sleep 30
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
