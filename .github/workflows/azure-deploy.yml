@@ -49,6 +49,9 @@ jobs:
               --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
               --startup-file "/home/site/wwwroot/startup.sh"
 
+      - name: Wait for App Service to stabilize
+        run: sleep 30
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
