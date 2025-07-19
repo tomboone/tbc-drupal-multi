@@ -25,13 +25,6 @@ jobs:
           chmod +x azuredeploy.sh
           chmod +x startup.sh
 
-      - name: Configure SSH for private repositories
-        # This step only runs if the secret is provided
-        if: secrets.SSH_PRIVATE_KEY != ''
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
