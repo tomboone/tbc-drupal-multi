@@ -1,0 +1,109 @@
+<?php
+
+use \Drupal\Core\Form\FormStateInterface;
+use \Drupal\Core\Breadcrumb\Breadcrumb;
+use \Drupal\Core\Routing\RouteMatchInterface;
+/**
+ * @file
+ * Primary module hooks for IMD Volunteer Form module.
+ *
+ * @DCG
+ * This file is no longer required in Drupal 8.
+ * @see https://www.drupal.org/node/2217931
+ */
+
+/**
+ * Implements hook_aggregator_fetcher_info_alter().
+ */
+/**
+ * Implements hook_form_alter().
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form_id
+ */
+function imd_volunteer_form_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Get access to currentUser()
+  $user = Drupal::currentUser();
+
+  // Volunteer Form Alters
+  if (($form_id == 'node_volunteer_form') || ($form_id == 'node_volunteer_edit_form')) {
+    // Rewrite form title
+    $form['#title'] = t('Volunteer for The Initiative');
+    // Rewrite submit button text
+    $form['workflows']['submit']['#value'] = t('Volunteer');
+    // Form alters for anonymous users
+    if ($user->isAnonymous() == TRUE) {
+      // Hide moderation_state field
+      $form['moderation_state']['#type'] = 'hidden';
+    }
+  }
+
+  // Candidate Form Alters
+  if (($form_id == ('node_candidate_form') || ($form_id == 'node_candidate_edit_form'))) {
+    // Rewrite form title
+    $form['#title'] = t('Apply for an Initiative Endorsement');
+    // Rewrite submit button text
+    $form['workflows']['submit']['#value'] = t('Apply for an Endorsement');
+    // form alters for anonymous users
+    if ($user->isAnonymous() == TRUE) {
+      // require email
+      $form['field_email']['widget'][0]['value']['#required'] = TRUE;
+      // require phone
+      $form['field_phone']['widget'][0]['value']['#required'] = TRUE;
+      // require office
+      $form['field_office']['widget'][0]['value']['#required'] = TRUE;
+      // require biggest reservation
+      $form['field_biggest_reservation']['widget'][0]['value']['#required'] = TRUE;
+      // hide moderation_state
+      $form['moderation_state']['#type'] = 'hidden';
+    }
+    // form alters for authenticated users
+    if (in_array('authenticated', $user->getRoles())){
+      // Require jurisdiction type
+      $form['field_jurisdiction_type']['widget']['#required'] = TRUE;
+      // Require jurisdiction name
+      $form['field_jurisdiction_name']['widget'][0]['value']['#required'] = TRUE;
+      // Require office sought
+      $form['field_office_sought']['widget'][0]['value']['#required'] = TRUE;
+      // Require candidate type
+      $form['field_candidate_type']['widget']['#required'] = TRUE;
+    }
+  }
+
+  // Pledge Signer Alters
+  if ($form_id == 'node_pledge_signer_form') {
+    // Form alters for anonymous users
+    if ($user->isAnonymous() == TRUE) {
+      // Rewrite page title
+      $form['#title'] = t('Sign the Pledge');
+      // Rewrite submit button text
+      $form['workflows']['submit']['#value'] = t('Sign the Pledge');
+    }
+  }
+}
+
+/**
+ * Implements hook_system_breadcrumb_alter().
+ *
+ * @param \Drupal\Core\Breadcrumb\Breadcrumb $breadcrumb
+ * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+ * @param array $context
+ */
+function imd_volunteer_form_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInterface $route_match, array $context) {
+  if ($breadcrumb) {
+      foreach ($breadcrumb->getLinks() as $item) {
+        // Check if on a node/add page
+        if ($item->getUrl()->getRouteName() == 'node.add') {
+          // Rewrite breadcrumb for pledge_signer form
+          if ($item->getUrl()->getRouteParameters()['node_type'] == 'pledge_signer') {
+            $item->setText('Sign the Pledge');
+          }
+          // Rewrite breadcrumb for volunteer form
+          if ($item->getUrl()->getRouteParameters()['node_type'] == 'volunteer') {
+            $item->setText('Volunteer');
+          }
+        }
+      }
+    }
+}

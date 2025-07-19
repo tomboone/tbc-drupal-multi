@@ -1,0 +1,30 @@
+uuid: da436adf-32db-481e-8c64-70c3c2aef12a
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:c3a81c08-3782-4d0c-b9e2-ce28bd837807'
+  module:
+    - block_content
+    - system
+  theme:
+    - jat_theme
+id: jat_theme_teenie_block_2
+theme: jat_theme
+region: content
+weight: -6
+provider: null
+plugin: 'block_content:c3a81c08-3782-4d0c-b9e2-ce28bd837807'
+settings:
+  id: 'block_content:c3a81c08-3782-4d0c-b9e2-ce28bd837807'
+  label: ''
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

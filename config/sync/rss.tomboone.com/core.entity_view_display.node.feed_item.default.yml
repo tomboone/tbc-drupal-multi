@@ -1,0 +1,62 @@
+uuid: 4aff3c06-b7f8-493f-960c-cf86195357bb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.feed_item.feeds_item
+    - field.field.node.feed_item.field_description
+    - field.field.node.feed_item.field_item_id
+    - field.field.node.feed_item.field_link
+    - field.field.node.feed_item.field_source
+    - node.type.feed_item
+  module:
+    - link
+    - text
+    - user
+id: node.feed_item.default
+targetEntityType: node
+bundle: feed_item
+mode: default
+content:
+  field_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_item_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_link:
+    type: link
+    label: above
+    settings:
+      trim_length: null
+      url_only: true
+      url_plain: false
+      rel: nofollow
+      target: _blank
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_source:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  feeds_item: true

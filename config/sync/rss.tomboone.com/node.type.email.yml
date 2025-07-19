@@ -1,0 +1,17 @@
+uuid: eb30de4d-d546-4e44-9a15-50b0900added
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Email
+type: email
+description: 'A email of RSS content to be sent at a specified time.'
+help: null
+new_revision: true
+preview_mode: 0
+display_submitted: false

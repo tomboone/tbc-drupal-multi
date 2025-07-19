@@ -1,0 +1,33 @@
+uuid: 6507a322-a452-4a5b-acce-1bd96ebf5f19
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.profile_sidebar
+  module:
+    - node
+    - views
+  theme:
+    - jbc_theme
+id: views_block__profile_sidebar_block_1
+theme: jbc_theme
+region: sidebar_second
+weight: -2
+provider: null
+plugin: 'views_block:profile_sidebar-block_1'
+settings:
+  id: 'views_block:profile_sidebar-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      profile: profile

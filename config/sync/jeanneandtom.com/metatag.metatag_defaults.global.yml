@@ -1,0 +1,19 @@
+uuid: 6dea56ee-b9ba-43b3-be03-a79b2e65a740
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: sL588ui1E_8-2c_UupwyYxcqX2OVyMFp3HTLbbFqvPc
+id: global
+label: Global
+tags:
+  canonical_url: '[current-page:url]'
+  image_src: 'https://jeanneandtom.com/sites/jeanneandtom.com/files/styles/full_width_-_desktop/public/2016-09-17_16.37.37.jpg?itok=8iO6GC_w'
+  title: '[current-page:title] | [site:name]'
+  og_url: '[current-page:url]'
+  og_site_name: '[site:name]'
+  og_image_alt: 'Photo of Jeanne and Tom'
+  og_image_height: '488'
+  og_image: 'https://jeanneandtom.com/sites/jeanneandtom.com/files/styles/full_width_-_desktop/public/2016-09-17_16.37.37.jpg?itok=8iO6GC_w'
+  og_title: '[current-page:title] | [site:name]'
+  og_image_width: '650'

@@ -1,0 +1,18 @@
+uuid: c7d1cb7b-715e-4ec8-aeba-4b40ef38b5c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.email
+id: node.email.title
+field_name: title
+entity_type: node
+bundle: email
+label: 'Email Subject'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

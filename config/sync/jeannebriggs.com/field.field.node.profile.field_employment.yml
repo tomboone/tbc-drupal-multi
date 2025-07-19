@@ -1,0 +1,19 @@
+uuid: 2e061a9a-97fa-4086-bed8-96e1c52569e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_employment
+    - node.type.profile
+id: node.profile.field_employment
+field_name: field_employment
+entity_type: node
+bundle: profile
+label: Employment
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

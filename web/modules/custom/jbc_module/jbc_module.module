@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @file
+ * Contains jbc_module.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ *
+ * @param string $route_name
+ * @param RouteMatchInterface $route_match
+ *
+ * @return string|null
+ *
+ * @noinspection PhpUnused
+ * @noinspection PhpUnusedParameterInspection
+ */
+function jbc_module_help(string $route_name, RouteMatchInterface $route_match): ?string {
+  switch ($route_name) {
+    // Main module help for the jbc_module module.
+    case 'help.page.jbc_module':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Custom functions for JBC') . '</p>';
+      return $output;
+
+    default:
+      return null;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @param array $form
+ * @param FormStateInterface $form_state
+ * @param string $form_id
+ *
+ * @return void
+ *
+ * @noinspection PhpUnused
+ * @noinspection PhpUnusedParameterInspection
+ */
+function jbc_module_form_user_login_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $form['#submit'][] = '_jbc_module_user_login_submit';
+}
+
+/**
+ * Custom submit handler for the user login form.
+ *
+ * @param array $form
+ * @param FormStateInterface $form_state
+ *
+ * @return void
+ *
+ * @noinspection PhpUnused
+ * @noinspection PhpUnusedParameterInspection
+ */
+function _jbc_module_user_login_submit(array &$form, FormStateInterface $form_state): void {
+  $form_state->setRedirectUrl(Url::fromUri('internal:/'));
+}

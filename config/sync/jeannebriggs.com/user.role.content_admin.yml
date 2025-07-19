@@ -1,0 +1,19 @@
+uuid: 118299db-4c8a-4fbf-8433-be764fb6da68
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+    - node.type.profile
+  module:
+    - file
+    - filter
+    - node
+id: content_admin
+label: 'Content Admin'
+weight: -8
+is_admin: null
+permissions:
+  - 'delete own files'
+  - 'edit any profile content'
+  - 'use text format basic_html'

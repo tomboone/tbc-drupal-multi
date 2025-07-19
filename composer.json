@@ -1,0 +1,122 @@
+{
+    "name": "drupal/recommended-project",
+    "description": "Project template for Drupal projects with a relocated document root",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/drupal",
+    "support": {
+        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
+        "chat": "https://www.drupal.org/node/314178"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "fgelinas/timepicker",
+                "version": "dev-master",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/fgelinas/timepicker/archive/refs/heads/master.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "require": {
+        "composer/installers": "^2.0",
+        "drupal/address": "^2.0@beta",
+        "drupal/admin_toolbar": "^3.3",
+        "drupal/bootstrap": "^3.20",
+        "drupal/bootstrap_barrio": "^5.5",
+        "drupal/bootstrap_library": "^2.0",
+        "drupal/captcha": "^2.0.7",
+        "drupal/content_access": "^2.0@alpha",
+        "drupal/core-composer-scaffold": "^10.0",
+        "drupal/core-recommended": "^10.0",
+        "drupal/ctools": "^4.0",
+        "drupal/devel": "^5.1",
+        "drupal/devel_kint_extras": "^1.1",
+        "drupal/ds": "^3.15",
+        "drupal/entity": "^1.0",
+        "drupal/exif_orientation": "^1.2",
+        "drupal/feeds": "^3.0@beta",
+        "drupal/feeds_tamper": "^2.0@beta",
+        "drupal/git_deploy": "^2.4",
+        "drupal/jquery_ui_accordion": "^2.0",
+        "drupal/key_auth": "^2.0",
+        "drupal/metatag": "^2.0@RC",
+        "drupal/pathauto": "^1.4",
+        "drupal/token": "^1.5",
+        "drupal/upgrade_status": "^4.0@alpha",
+        "drush/drush": "^13",
+        "fgelinas/timepicker": "dev-master",
+        "twig/twig": "^3.14",
+        "vlucas/phpdotenv": "^5.6.2"
+    },
+    "require-dev": {
+        "behat/mink": "^1.11",
+        "drupal/core-dev": "^10.0",
+        "phpspec/prophecy-phpunit": "^2.1"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/core-composer-scaffold": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true,
+            "simplesamlphp/composer-module-installer": true,
+            "tbachert/spi": true
+        }
+    },
+    "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "web/"
+            }
+        },
+        "installer-paths": {
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "web/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "web/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
+            "web/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ],
+            "recipes/{$name}": [
+                "type:drupal-recipe"
+            ]
+        }
+    }
+}

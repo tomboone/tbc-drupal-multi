@@ -1,0 +1,22 @@
+uuid: 9e98ca4f-a6c3-4f92-93cd-0de63c77e47a
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - jat_theme
+_core:
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: jat_theme_teenie_system_main
+theme: jat_theme
+region: content
+weight: -1
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: ''
+  label_display: '0'
+  provider: system
+visibility: {  }

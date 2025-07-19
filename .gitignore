@@ -1,0 +1,24 @@
+# Ignore directories managed by Composer.
+/vendor/
+web/core/
+web/modules/contrib/
+web/themes/contrib/
+web/profiles/contrib/
+web/libraries/
+
+# Ignore configuration files that may contain sensitive information.
+web/sites/*/settings.local.php
+web/sites/*/services*.yml
+
+# Ignore paths that contain user-generated content.
+web/sites/*/files/
+web/sites/*/private/
+
+# Ignore multi-site test environment.
+web/sites/simpletest/
+
+# Ignore common local development artifacts.
+.idea/
+.DS_Store
+.env
+/.gitattributes

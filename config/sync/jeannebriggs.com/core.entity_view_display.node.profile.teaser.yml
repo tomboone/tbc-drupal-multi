@@ -1,0 +1,42 @@
+uuid: 83a302bc-2374-40cd-b4e9-7442a3c07609
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.profile.field_clients
+    - field.field.node.profile.field_country_expertise
+    - field.field.node.profile.field_education
+    - field.field.node.profile.field_email
+    - field.field.node.profile.field_employment
+    - field.field.node.profile.field_phone_number
+    - field.field.node.profile.field_professional_expertise
+    - field.field.node.profile.field_profile_photo
+    - field.field.node.profile.field_summary
+    - field.field.node.profile.field_tagline
+    - field.field.node.profile.field_technical_expertise
+    - node.type.profile
+  module:
+    - user
+id: node.profile.teaser
+targetEntityType: node
+bundle: profile
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_clients: true
+  field_country_expertise: true
+  field_education: true
+  field_email: true
+  field_employment: true
+  field_phone_number: true
+  field_professional_expertise: true
+  field_profile_photo: true
+  field_summary: true
+  field_tagline: true
+  field_technical_expertise: true

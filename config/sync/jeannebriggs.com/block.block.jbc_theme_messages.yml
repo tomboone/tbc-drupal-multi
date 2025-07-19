@@ -1,0 +1,22 @@
+uuid: 18ff33d3-98d5-4fd4-9e0a-f6f15926a6c6
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - jbc_theme
+_core:
+  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
+id: jbc_theme_messages
+theme: jbc_theme
+region: content
+weight: 1
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

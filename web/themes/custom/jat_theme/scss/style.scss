@@ -1,0 +1,195 @@
+// Default variables.
+@import "default-variables";
+
+// Bootstrap Framework.
+@import '../bootstrap/assets/stylesheets/bootstrap';
+
+// Base-theme overrides.
+@import 'drupal-bootstrap';
+
+/**
+ * Place your custom styles here.
+ */
+
+/* Defaults */
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Francois One', sans-serif;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 4.375em;
+  top: 12px;
+}
+
+.page-header {
+  border: none;
+  margin-top: 18px;
+}
+
+.container {
+  max-width: 680px;
+}
+
+footer {
+  text-align: center;
+}
+
+article {
+  a {
+    font-weight: bold;
+    text-decoration: underline;
+    color: #333333;
+    &:hover {
+      text-decoration: none;
+      color: #777777;
+    }  }
+}
+
+/* Header Menu */
+.navbar.container {
+  max-width: 680px;
+}
+
+.navbar-nav {
+  background: none;
+  border: none;
+  font-family: 'Francois One', sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.navbar-nav > li {
+  float: none;
+  display: inline-block;
+}
+
+.navbar-nav > li > a {
+  border-bottom: 1px solid transparent;
+  color: #777777;
+}
+
+.navbar-nav > li > {
+  .active,
+  a:hover,
+  a:focus {
+    background: none;
+    color: #a2d0ce;
+    border-bottom: 1px solid #777777;
+  }
+}
+
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-nav > .active > a:focus {
+  background: none;
+  color: #a2d0ce;
+  border-bottom: 1px solid #777777;
+}
+
+/* Page Header */
+#block-jat-theme-teenie-block-2 {
+  text-align: center;
+  margin-bottom: 18px;
+  .names {
+    font-family: 'Francois One', sans-serif;
+    top: -3px;
+    position: relative;
+
+    a {
+      color: #a2d0ce;
+
+      &:hover {
+        color: #333;
+        text-decoration: none;
+      }
+    }
+
+    .spouse {
+      font-size: 2.5em;
+      top: 5px;
+      position: relative;
+    }
+  }
+  .header-date {
+    color: #777777;
+  }
+}
+
+/* Front Page */
+
+.view-front-page {
+  text-align: center;
+
+  h1 {
+    position: relative;
+    top: -15px;
+    font-size: 1.75em;
+    font-family: 'Francois One', sans-serif;
+    a {
+      color: #a2d0ce;
+      &:hover {
+        color: #333;
+        text-decoration: none;
+      }
+    }
+    .spouse {
+      text-transform: uppercase;
+      font-size: 2.5em;
+      position: relative;
+      top: 12px;
+      padding: 0 15px 15px;
+    }
+  }
+  .views-field-field-date {
+    color: #777777;
+    margin-bottom: 10px;
+  }
+  .views-field-field-location {
+    color: #777777;
+    margin-bottom: 25px;
+  }
+  .views-field-field-image {
+    margin-bottom: 20px;
+    img {
+      display: inline;
+    }
+  }
+}
+
+/* Ceremony page */
+body.page-node-3 article.node .party p {
+  text-align: center;
+}
+
+/* Venue page */
+iframe.map {
+  filter: grayscale(100%);
+}
+
+/* Lodging page */
+body.page-node-5 article.node h4 {
+  text-align: left;
+  margin-top: 20px;
+}
+
+/* Breadcrumb */
+
+.breadcrumb {
+  color: #333;
+  a {
+    color: #333;
+    &:hover {
+      color: #777;
+      text-decoration: none;
+    }
+  }
+}

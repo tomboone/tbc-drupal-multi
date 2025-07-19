@@ -1,0 +1,22 @@
+uuid: 94527a6e-3309-4af5-9b02-c7164d3634dc
+langcode: en
+status: true
+dependencies:
+  theme:
+    - jbc_theme
+_core:
+  default_config_hash: X9I1OB0W3WlWtrK-CNcg6hNWwa8wficanpH8pYnDZDE
+id: jbc_theme_local_tasks
+theme: jbc_theme
+region: content
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

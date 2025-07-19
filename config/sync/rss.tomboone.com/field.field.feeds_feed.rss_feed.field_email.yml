@@ -1,0 +1,29 @@
+uuid: 8d3d2c46-8af7-4f27-9acb-2dd2cde49b6f
+langcode: en
+status: true
+dependencies:
+  config:
+    - feeds.feed_type.rss_feed
+    - field.storage.feeds_feed.field_email
+    - node.type.email
+id: feeds_feed.rss_feed.field_email
+field_name: field_email
+entity_type: feeds_feed
+bundle: rss_feed
+label: Email
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      email: email
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

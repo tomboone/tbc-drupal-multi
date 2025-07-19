@@ -1,0 +1,55 @@
+// Default variables.
+@import "default-variables";
+
+// Bootstrap Framework.
+@import '../bootstrap/assets/stylesheets/bootstrap';
+
+// Base-theme overrides.
+@import 'drupal-bootstrap';
+
+body {
+  margin-top: 0;
+  padding-bottom: 40px;
+}
+
+.field--label {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #666666;
+  letter-spacing: 0.15em;
+  font-size: 0.8em;
+}
+
+.field--items {
+  font-size: 0.85em;
+  margin-bottom: 10px;
+}
+
+.field--name-field-logo {
+  text-align: center;
+  padding: 30px;
+  img {
+    display: inline;
+  }
+}
+
+.field--name-field-name {
+  font-size: 1.1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.field--name-field-tagline {
+  color: #666666;
+}
+
+.field--name-field-email {
+  margin-bottom: 1em;
+  font-size: 0.85em;
+}
+
+.field--name-field-about {
+  font-size: 0.85em;
+  margin-bottom: 1em;
+}

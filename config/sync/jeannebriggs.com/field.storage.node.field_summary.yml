@@ -1,0 +1,19 @@
+uuid: daa33c20-cb38-4c33-89e8-c42b2173a5dd
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_summary
+field_name: field_summary
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

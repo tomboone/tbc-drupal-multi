@@ -1,0 +1,88 @@
+services:
+  tbc_drupal_php:
+    build: .
+    container_name: tbc_drupal_php
+    volumes:
+      - ./:/app
+    working_dir: /app
+    secrets:
+      - ssh_key
+      - gitconfig
+    networks:
+      - proxy
+
+  tbc_drupal_nginx:
+    container_name: tbc_drupal_nginx
+    image: nginx:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tbc_nginx.rule=Host(`jat.localhost`, `jbc.localhost`, `rss.tbc.localhost`)"
+      - "traefik.http.routers.tbc_nginx.tls=true"
+      - "traefik.http.routers.tbc_nginx.entrypoints=websecure"
+    volumes:
+      - ./:/app
+      - ./nginx/docker/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - tbc_drupal_php
+    networks:
+      - proxy
+
+  tbc_drupal_jat_db:
+    container_name: tbc_drupal_jat_db
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: database
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+    ports:
+      - "3326:3306"
+    volumes:
+      - jat_data:/var/lib/mysql
+    networks:
+      - proxy
+
+  tbc_drupal_jbc_db:
+    container_name: tbc_drupal_jbc_db
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: database
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+    ports:
+      - "3327:3306"
+    volumes:
+      - jbc_data:/var/lib/mysql
+    networks:
+      - proxy
+
+  tbc_drupal_rss_db:
+    container_name: tbc_drupal_rss_db
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: database
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+    ports:
+      - "3328:3306"
+    volumes:
+      - rss_data:/var/lib/mysql
+    networks:
+      - proxy
+
+secrets:
+  ssh_key:
+    file: ${SSH_KEY_FILE}
+  gitconfig:
+    file: ${GITCONFIG}
+
+volumes:
+    jat_data:
+    jbc_data:
+    rss_data:
+
+networks:
+  proxy:
+    external: true

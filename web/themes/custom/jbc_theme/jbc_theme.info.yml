@@ -1,0 +1,14 @@
+name: JBC
+type: theme
+description: 'Basic structure for a Bootstrap Barrio SubTheme.'
+base theme: bootstrap_barrio
+core_version_requirement: ^9 || ^10
+
+libraries:
+  - jbc_theme/bootstrap_cdn
+  - jbc_theme/global-styling
+
+regions:
+  content: Content
+  sidebar_second: 'Sidebar second'
+

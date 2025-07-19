@@ -1,0 +1,19 @@
+uuid: 9ca62846-012b-40d6-82d5-e894ae0baf55
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_explain_restrictions
+    - node.type.rsvp
+id: node.rsvp.field_explain_restrictions
+field_name: field_explain_restrictions
+entity_type: node
+bundle: rsvp
+label: 'Explain your dietary restrictions'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,15 @@
+uuid: 8d0b4f9f-6b0e-4078-a94d-210dc94e5e23
+langcode: en
+status: true
+dependencies: {  }
+name: full_width_-_desktop
+label: 'full width - desktop'
+effects:
+  9fed0099-478f-4a55-a24e-14537f2524f7:
+    uuid: 9fed0099-478f-4a55-a24e-14537f2524f7
+    id: image_scale
+    weight: 1
+    data:
+      width: 650
+      height: 650
+      upscale: false

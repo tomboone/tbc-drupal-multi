@@ -1,0 +1,22 @@
+uuid: 6a45ae87-452d-48b7-8ada-df06381a4e93
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: email
+label: Email
+type: 'canonical_entities:node'
+pattern: 'emails/[node:title]'
+selection_criteria:
+  d53b47e2-1c99-4472-a922-8720c3da8477:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: d53b47e2-1c99-4472-a922-8720c3da8477
+    context_mapping:
+      node: node
+    bundles:
+      email: email
+selection_logic: and
+weight: -5
+relationships: {  }

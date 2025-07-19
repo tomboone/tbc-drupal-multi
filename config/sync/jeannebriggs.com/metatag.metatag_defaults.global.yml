@@ -1,0 +1,19 @@
+uuid: 33f3e3f2-a569-46c0-964e-c8d10455b7ba
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: sL588ui1E_8-2c_UupwyYxcqX2OVyMFp3HTLbbFqvPc
+id: global
+label: Global
+tags:
+  canonical_url: '[current-page:url]'
+  description: 'Jeanne Briggs, Independent Consultant, +1 202-285-6460, jeanne@jeannebriggs.com'
+  image_src: 'https://jeannebriggs.com/sites/jeannebriggs.com/files/styles/profile_570x570/public/2019-07/Lou%20Niantie%206.JPG?itok=AIsaOlNv'
+  title: '[current-page:title] | [site:name]'
+  og_site_name: '[site:name]'
+  og_image_alt: 'Photo of Jeanne Briggs'
+  og_image_height: '570'
+  og_image: 'https://jeannebriggs.com/sites/jeannebriggs.com/files/styles/profile_570x570/public/2019-07/Lou%20Niantie%206.JPG?itok=AIsaOlNv'
+  og_title: '[current-page:title]'
+  og_image_width: '480'

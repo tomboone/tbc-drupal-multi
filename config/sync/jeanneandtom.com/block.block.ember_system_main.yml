@@ -1,0 +1,20 @@
+uuid: cc649a68-9349-4a58-b0e5-0d430bbfbbee
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - ember
+id: ember_system_main
+theme: ember
+region: ''
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: ''
+  label_display: '0'
+  provider: system
+visibility: {  }

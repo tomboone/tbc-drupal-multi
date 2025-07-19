@@ -1,0 +1,29 @@
+uuid: 6b8ef5d2-8f3a-427e-8b70-99b321107ef8
+langcode: en
+status: true
+dependencies:
+  config:
+    - feeds.feed_type.rss_feed
+    - field.storage.node.field_source
+    - node.type.feed_item
+id: node.feed_item.field_source
+field_name: field_source
+entity_type: node
+bundle: feed_item
+label: Source
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:feeds_feed'
+  handler_settings:
+    target_bundles:
+      rss_feed: rss_feed
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

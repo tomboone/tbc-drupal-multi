@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: yTxtFqBHnEWxQswuWvkjE8mKw2t8oKuCL1q8KnfHuGE
+langcode: en
+uuid: a1c8bdb6-6e0a-4642-a889-141d225f7c71
+name: 'Jeanne and Tom'
+mail: no-reply@jeanneandtom.com
+slogan: 'Saturday, October 6, 2018'
+page:
+  403: ''
+  404: ''
+  front: /index
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: en
+mail_notification: ''

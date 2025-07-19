@@ -1,0 +1,38 @@
+uuid: a40c2aca-067e-4741-87e1-afd7944dcf9b
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.filtered_html
+    - node.type.gallery
+    - node.type.guest
+    - node.type.page
+    - node.type.rsvp
+  module:
+    - file
+    - filter
+    - node
+    - system
+_core:
+  default_config_hash: btW6TFHajhy7Eo6YUvdFiPh4TcPggo8GBXYctjV6zag
+id: authenticated
+label: 'authenticated user'
+weight: 1
+is_admin: false
+permissions:
+  - 'access content'
+  - 'create guest content'
+  - 'create page content'
+  - 'create rsvp content'
+  - 'delete any gallery content'
+  - 'delete own files'
+  - 'delete own gallery content'
+  - 'edit any gallery content'
+  - 'edit any guest content'
+  - 'edit any page content'
+  - 'edit any rsvp content'
+  - 'edit own gallery content'
+  - 'edit own guest content'
+  - 'edit own page content'
+  - 'edit own rsvp content'
+  - 'use text format filtered_html'

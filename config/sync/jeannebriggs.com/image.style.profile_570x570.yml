@@ -1,0 +1,15 @@
+uuid: 74474ec4-cd5e-4892-a2fb-62dc64bc9d53
+langcode: en
+status: true
+dependencies: {  }
+name: profile_570x570
+label: 'Profile (570x570)'
+effects:
+  3ce69390-6271-4672-a273-a8206b4aa951:
+    uuid: 3ce69390-6271-4672-a273-a8206b4aa951
+    id: image_scale
+    weight: 1
+    data:
+      width: 570
+      height: 570
+      upscale: false

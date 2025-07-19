@@ -1,0 +1,28 @@
+uuid: 13de6451-8fda-4603-a205-f6664d6f20f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.guest.field_address
+    - node.type.guest
+  module:
+    - address
+    - user
+id: node.guest.default
+targetEntityType: node
+bundle: guest
+mode: default
+content:
+  field_address:
+    type: address_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

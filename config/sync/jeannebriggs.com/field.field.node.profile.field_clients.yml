@@ -1,0 +1,19 @@
+uuid: fe02e794-1709-458d-8756-bf472e168544
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_clients
+    - node.type.profile
+id: node.profile.field_clients
+field_name: field_clients
+entity_type: node
+bundle: profile
+label: Clients
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

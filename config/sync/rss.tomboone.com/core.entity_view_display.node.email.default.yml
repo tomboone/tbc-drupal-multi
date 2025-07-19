@@ -1,0 +1,21 @@
+uuid: 8f20e912-fc57-4260-85d6-35306f980feb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.email.field_email
+    - node.type.email
+  module:
+    - user
+id: node.email.default
+targetEntityType: node
+bundle: email
+mode: default
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_email: true

@@ -1,0 +1,33 @@
+uuid: 2787424f-fe6a-411a-acdc-f7aa24a13859
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.items_by_email
+  module:
+    - node
+    - views
+  theme:
+    - bootstrap
+id: views_block__items_by_email_block_2_2
+theme: bootstrap
+region: content
+weight: -6
+provider: null
+plugin: 'views_block:items_by_email-block_2'
+settings:
+  id: 'views_block:items_by_email-block_2'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      email: email

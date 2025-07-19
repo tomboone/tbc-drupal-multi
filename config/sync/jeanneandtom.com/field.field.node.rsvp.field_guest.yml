@@ -1,0 +1,26 @@
+uuid: 469785b0-c1fd-4f07-8a35-d9e40f67e991
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_guest
+    - node.type.rsvp
+id: node.rsvp.field_guest
+field_name: field_guest
+entity_type: node
+bundle: rsvp
+label: Guest
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      guest: Guest
+    sort:
+      field: _none
+      direction: ASC
+field_type: entity_reference

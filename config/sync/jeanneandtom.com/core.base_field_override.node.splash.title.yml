@@ -1,0 +1,18 @@
+uuid: 6e494740-3361-4ead-97e1-1a75434149af
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.splash
+id: node.splash.title
+field_name: title
+entity_type: node
+bundle: splash
+label: Title
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

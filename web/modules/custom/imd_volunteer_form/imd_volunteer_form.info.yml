@@ -1,0 +1,5 @@
+name: IMD Volunteer Form Alters
+type: module
+description: Form alterations for visitors to volunteer to work with The Initiative
+package: Custom
+core_version_requirement: ^9 || ^10

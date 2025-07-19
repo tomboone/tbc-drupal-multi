@@ -1,0 +1,33 @@
+uuid: c4e0245d-21d0-4e2b-8918-3eb273b4f8d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.feeds
+  module:
+    - node
+    - views
+  theme:
+    - bootstrap
+id: views_block__feeds_block_1
+theme: bootstrap
+region: sidebar_second
+weight: 0
+provider: null
+plugin: 'views_block:feeds-block_1'
+settings:
+  id: 'views_block:feeds-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      email: email

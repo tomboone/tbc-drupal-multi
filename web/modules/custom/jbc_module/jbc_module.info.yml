@@ -1,0 +1,5 @@
+name: 'JBC Module'
+type: module
+description: 'Custom functions for JBC'
+package: 'JBC'
+core_version_requirement: ^9 || ^10

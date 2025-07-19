@@ -1,0 +1,21 @@
+uuid: 8c9ce8b2-9a4e-4979-a7c8-f8f8dffca2e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rsvp
+    - node.type.rsvp
+  module:
+    - options
+id: node.rsvp.field_rsvp
+field_name: field_rsvp
+entity_type: node
+bundle: rsvp
+label: RSVP
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer

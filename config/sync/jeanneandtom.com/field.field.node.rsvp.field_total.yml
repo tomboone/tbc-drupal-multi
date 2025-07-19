@@ -1,0 +1,23 @@
+uuid: c36057f7-9e4f-4df0-9fa2-f496e88f9b73
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_total
+    - node.type.rsvp
+id: node.rsvp.field_total
+field_name: field_total
+entity_type: node
+bundle: rsvp
+label: 'No. of Guests'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,27 @@
+uuid: 532055da-c487-438b-9887-c14e2f05e803
+langcode: und
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_rsvp
+field_name: field_rsvp
+entity_type: node
+type: list_integer
+settings:
+  allowed_values:
+    -
+      value: 0
+      label: 'Will Attend'
+    -
+      value: 1
+      label: 'Will Not Attend'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

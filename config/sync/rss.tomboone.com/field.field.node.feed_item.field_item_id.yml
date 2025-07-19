@@ -1,0 +1,19 @@
+uuid: 92186538-098f-4640-b11b-a4d84c70ef79
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_item_id
+    - node.type.feed_item
+id: node.feed_item.field_item_id
+field_name: field_item_id
+entity_type: node
+bundle: feed_item
+label: 'Item ID'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

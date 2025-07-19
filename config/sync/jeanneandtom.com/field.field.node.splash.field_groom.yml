@@ -1,0 +1,19 @@
+uuid: bd91547c-bb13-4d66-bd5d-3c87fa64c365
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_groom
+    - node.type.splash
+id: node.splash.field_groom
+field_name: field_groom
+entity_type: node
+bundle: splash
+label: Groom
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

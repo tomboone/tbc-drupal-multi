@@ -1,0 +1,126 @@
+uuid: 75c4237a-6630-45b3-8c0e-b3071974cee0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.feed_item.field_description
+    - field.field.node.feed_item.field_item_id
+    - field.field.node.feed_item.field_link
+    - field.field.node.feed_item.field_source
+    - node.type.feed_item
+  module:
+    - feeds_tamper
+    - node
+third_party_settings:
+  feeds_tamper:
+    tampers:
+      cd3c62e2-d7f2-4920-9e9f-8d4c2fad53d5:
+        default_value: now
+        only_if_empty: true
+        uuid: cd3c62e2-d7f2-4920-9e9f-8d4c2fad53d5
+        plugin: default_value
+        source: timestamp
+        weight: 0
+        label: 'Set value or default value'
+      0c7b87e4-f522-4181-9af7-44c6eeef1ba8:
+        words: |-
+          Live Stream: 
+          Start time, where to watch, what's the latest
+          : Play-by-play, highlights and reactions
+          : Start time, where to watch, what's the latest
+        word_boundaries: false
+        exact: false
+        case_sensitive: false
+        invert: true
+        word_list:
+          - 'Live Stream:'
+          - "Start time, where to watch, what's the latest"
+          - ': Play-by-play, highlights and reactions'
+          - ": Start time, where to watch, what's the latest"
+        regex: false
+        function: mb_stripos
+        uuid: 0c7b87e4-f522-4181-9af7-44c6eeef1ba8
+        plugin: keyword_filter
+        source: title
+        weight: 0
+        label: 'Keyword filter'
+      19288d96-86e2-44c3-88df-1f6d65ef6019:
+        uuid: 19288d96-86e2-44c3-88df-1f6d65ef6019
+        plugin: html_entity_decode
+        source: title
+        weight: 1
+        label: 'HTML entity decode'
+label: 'RSS Feed'
+id: rss_feed
+description: ''
+help: ''
+import_period: 1800
+fetcher: http
+fetcher_configuration:
+  auto_detect_feeds: false
+  use_pubsubhubbub: false
+  always_download: false
+  fallback_hub: ''
+  request_timeout: 30
+parser: syndication
+parser_configuration: {  }
+processor: 'entity:node'
+processor_configuration:
+  values:
+    type: feed_item
+  langcode: en
+  insert_new: 1
+  update_existing: 2
+  update_non_existent: _keep
+  skip_hash_check: false
+  authorize: true
+  revision: false
+  expire: 7776000
+  owner_feed_author: true
+  owner_id: 0
+custom_sources: {  }
+mappings:
+  -
+    target: title
+    map:
+      value: title
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_link
+    map:
+      uri: url
+      title: ''
+    settings:
+      language: null
+  -
+    target: field_item_id
+    map:
+      value: guid
+    settings:
+      language: null
+    unique:
+      value: '1'
+  -
+    target: field_description
+    map:
+      value: description
+    settings:
+      language: ''
+      format: full_html
+  -
+    target: field_source
+    map:
+      target_id: 'parent:fid'
+    settings:
+      language: ''
+      reference_by: fid
+      autocreate: 0
+  -
+    target: created
+    map:
+      value: timestamp
+    settings:
+      language: null
+      timezone: UTC

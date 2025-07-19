@@ -1,0 +1,14 @@
+uuid: 78976085-3622-4c11-8b6f-4529f8e7a6ab
+langcode: en
+status: true
+dependencies:
+  module:
+    - file
+_core:
+  default_config_hash: I44QAB4es39lNzMQWiJLq2dfjX7VRSOzT_5KzAcUq_M
+id: authenticated
+label: 'Authenticated user'
+weight: 1
+is_admin: false
+permissions:
+  - 'delete own files'

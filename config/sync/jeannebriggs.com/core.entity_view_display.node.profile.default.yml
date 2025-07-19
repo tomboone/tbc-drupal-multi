@@ -1,0 +1,53 @@
+uuid: e65874fc-0726-488b-8352-1a5c6fdbd329
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.profile.field_clients
+    - field.field.node.profile.field_country_expertise
+    - field.field.node.profile.field_education
+    - field.field.node.profile.field_email
+    - field.field.node.profile.field_employment
+    - field.field.node.profile.field_phone_number
+    - field.field.node.profile.field_professional_expertise
+    - field.field.node.profile.field_profile_photo
+    - field.field.node.profile.field_summary
+    - field.field.node.profile.field_tagline
+    - field.field.node.profile.field_technical_expertise
+    - image.style.large
+    - node.type.profile
+  module:
+    - image
+    - user
+id: node.profile.default
+targetEntityType: node
+bundle: profile
+mode: default
+content:
+  field_profile_photo:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: large
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  field_clients: true
+  field_country_expertise: true
+  field_education: true
+  field_email: true
+  field_employment: true
+  field_phone_number: true
+  field_professional_expertise: true
+  field_summary: true
+  field_tagline: true
+  field_technical_expertise: true

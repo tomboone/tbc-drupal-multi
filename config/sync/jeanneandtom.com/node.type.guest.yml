@@ -1,0 +1,16 @@
+uuid: dd326fd3-d36a-4d73-aa85-d62db05ace1e
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    parent: 'main-menu:0:'
+name: Guest
+type: guest
+description: 'Use <em>Guest</em> for invited wedding guests. Each guest node represents the entire party covered by a single wedding invitation.'
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false
