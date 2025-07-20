@@ -21,7 +21,7 @@ services:
       - "traefik.http.routers.tbc_nginx.entrypoints=websecure"
     volumes:
       - ./:/app
-      - ./nginx/docker/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - tbc_drupal_php
     networks:
