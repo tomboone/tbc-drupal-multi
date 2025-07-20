@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# This script runs post-deployment tasks for a Drupal multisite installation
-# on Azure App Service. It sets up symlinks to a persistent file share and
-# then runs deployment hooks for each site.
-
-# Exit immediately if a command exits with a non-zero status.
-set -e
-
-# --- Configuration ---
-# Define each site directory and its corresponding production URL.
 declare -A SITES
 SITES=(
     ["default"]="jeanneandtom.com"
@@ -16,23 +7,11 @@ SITES=(
     ["rss.tomboone.com"]="rss.tomboone.com"
 )
 
-# The root directory of your application in Azure App Service.
 APP_ROOT="/home/site/wwwroot"
-
-# The path where your Azure File Share is mounted for persistent files.
-# This should contain a 'sites' directory with your multisite assets.
 FILES_MOUNT_PATH="/mnt/tbc-drupal-multi-config"
 
+cp "$FILES_MOUNT_PATH"/default /etc/nginx/sites-enabled/default
 
-# --- Deployment Steps ---
-
-echo "Navigating to the application root directory: $APP_ROOT"
-cd "$APP_ROOT"
-
-echo "Ensuring symlinks for persistent files and settings are in place..."
-echo "-------------------------------------------------"
-
-# This block should run BEFORE drush commands.
 for SITE_DIR in "${!SITES[@]}"; do
     SITE_URL="${SITES[$SITE_DIR]}"
     echo ">>> Setting up symlinks for site: $SITE_URL"
@@ -87,6 +66,11 @@ for SITE_DIR in "${!SITES[@]}"; do
 done
 echo "-------------------------------------------------"
 
+cd "$APP_ROOT"
+
+echo ">>> Installing composer dependencies..."
+composer install --no-dev --optimize-autoloader
+echo ">>> Composer dependencies installed successfully!"
 
 echo "Starting Drush deployment hooks for all sites..."
 echo "-------------------------------------------------"
