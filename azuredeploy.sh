@@ -98,7 +98,7 @@ for SITE_DIR in "${!SITES[@]}"; do
 
     # The -y flag automatically answers "yes" to any prompts.
     # The --uri parameter tells Drush which site to target.
-    php vendor/bin/drush --uri="https://$SITE_URL" deploy:hook -y
+    /usr/local/bin/php vendor/bin/drush --uri="https://$SITE_URL" deploy:hook -y
 
     echo ">>> Finished processing site: $SITE_URL"
     echo "-------------------------------------------------"
