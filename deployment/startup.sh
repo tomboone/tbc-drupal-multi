@@ -9,8 +9,10 @@ SITES=(
 
 APP_ROOT="/home/site/wwwroot"
 FILES_MOUNT_PATH="/mnt/tbc-drupal-multi-config"
+CUSTOM_NGINX_CONFIG="$FILES_MOUNT_PATH/default"
 
-cp "$FILES_MOUNT_PATH"/default /etc/nginx/sites-enabled/default
+cp "$CUSTOM_NGINX_CONFIG" /etc/nginx/sites-enabled/default
+service nginx restart
 
 for SITE_DIR in "${!SITES[@]}"; do
     SITE_URL="${SITES[$SITE_DIR]}"
@@ -68,10 +70,6 @@ echo "-------------------------------------------------"
 
 cd "$APP_ROOT"
 
-echo ">>> Installing composer dependencies..."
-composer install --no-dev --optimize-autoloader
-echo ">>> Composer dependencies installed successfully!"
-
 echo "Starting Drush deployment hooks for all sites..."
 echo "-------------------------------------------------"
 
@@ -82,7 +80,7 @@ for SITE_DIR in "${!SITES[@]}"; do
 
     # The -y flag automatically answers "yes" to any prompts.
     # The --uri parameter tells Drush which site to target.
-    /usr/bin/php8.3 vendor/bin/drush --uri="https://$SITE_URL" deploy:hook -y
+    vendor/bin/drush --uri="https://$SITE_URL" deploy:hook -y
 
     echo ">>> Finished processing site: $SITE_URL"
     echo "-------------------------------------------------"
