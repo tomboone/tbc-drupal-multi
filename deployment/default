@@ -6,16 +6,56 @@ server {
     server_name _; # Listen to all hostnames sent by the App Service frontend
     port_in_redirect off;
 
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    # Very rarely should these ever be accessed outside of your lan
+    location ~* \.(txt|log)$ {
+        allow 192.168.0.0/16;
+        deny all;
+    }
+
+    location ~ \..*/.*\.php$ {
+        return 403;
+    }
+
+    location ~ ^/sites/.*/private/ {
+        return 403;
+    }
+
+    # Allow "Well-Known URIs" as per RFC 5785
+    location ~* ^/.well-known/ {
+        allow all;
+    }
+
+    # Block access to "hidden" files and directories whose names begin with a
+    # period. This includes directories used by version control systems such
+    # as Subversion or Git to store control files.
+    location ~ (^|/)\. {
+        return 403;
+    }
+
     location / {
         # This is the important part for clean URLs
         try_files $uri /index.php?$query_string;
     }
 
-    # Deny access to sensitive files for security.
-    location ~* \.(engine|inc|install|make|module|profile|test|po|sh|.*sql|theme|twig|tpl(\.php)?|xtmpl|yml)(~|\.sw[op]|\.bak|\.orig|\.save)?$|/(\.(?!well-known)|composer\.(json|lock)|web\.config|package\.json|package-lock\.json)$|/sites/.*/(private|files/translations)/|/sites/simpletest/|/core/tests/|/vendor/ {
+    location @rewrite {
+        rewrite ^/(.*)$ /index.php?q=$1;
+    }
+
+    # Don't allow direct access to PHP files in the vendor directory.
+    location ~ /vendor/.*\.php$ {
         deny all;
-        access_log off;
-        log_not_found off;
+        return 404;
     }
 
     # Handle PHP files
@@ -37,6 +77,21 @@ server {
         fastcgi_temp_file_write_size 256k;
     }
 
+   # Fighting with Styles? This little gem is amazing.
+    # location ~ ^/sites/.*/files/imagecache/ { # For Drupal <= 6
+    location ~ ^(/[a-z\-]+)?/sites/.*/files/(css|js|styles)/ { # For Drupal >= 7
+        try_files $uri @rewrite;
+    }
+    # Handle private files through Drupal. Private file's path can come
+    # with a language prefix.
+    location ~ ^(/[a-z\-]+)?/system/files/ { # For Drupal >= 7
+        try_files $uri /index.php?$query_string;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+        expires max;
+        log_not_found off;
+    }
     # Disable .git directory
     location ~ /\.git {
         deny all;
