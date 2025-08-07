@@ -64,6 +64,30 @@ for SITE_DIR in "${!SITES[@]}"; do
         echo "Warning: Target settings file not found at $TARGET_SETTINGS_FILE. Skipping symlink creation."
     fi
 
+    # --- Symlink for 'settings.php' ---
+    SOURCE_SETTINGS_PHP_FILE="$APP_ROOT/web/sites/$SITE_DIR/settings.php"
+    TARGET_SETTINGS_PHP_FILE="$FILES_MOUNT_PATH/sites/$SITE_DIR/settings.php"
+
+    # 1. Check if the target settings file exists on the share. It should.
+    if [ -f "$TARGET_SETTINGS_PHP_FILE" ]; then
+        # 2. If the source path exists as a real file (from git), remove it.
+        if [ -f "$SOURCE_SETTINGS_PHP_FILE" ] && [ ! -L "$SOURCE_SETTINGS_PHP_FILE" ]; then
+            echo "Warning: Found a real file at $SOURCE_SETTINGS_PHP_FILE. Removing it."
+            rm -f "$SOURCE_SETTINGS_PHP_FILE"
+        fi
+
+        # 3. If the symlink doesn't exist, create it.
+        if [ ! -e "$SOURCE_SETTINGS_PHP_FILE" ]; then
+            echo "Creating symlink for settings.php: $SOURCE_SETTINGS_PHP_FILE -> $TARGET_SETTINGS_PHP_FILE"
+            ln -s "$TARGET_SETTINGS_PHP_FILE" "$SOURCE_SETTINGS_PHP_FILE"
+        else
+            echo "settings.php symlink at $SOURCE_SETTINGS_PHP_FILE already exists. Skipping."
+        fi
+    else
+        # This is a non-fatal warning. The site might not have a settings.php file.
+        echo "Warning: Target settings.php file not found at $TARGET_SETTINGS_PHP_FILE. Skipping symlink creation."
+    fi
+
     echo ">>> Symlink setup complete for site: $SITE_URL"
 done
 echo "-------------------------------------------------"
