@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Pre-commit hook to ensure Drupal configuration is exported
+# This script checks if config has been exported for each site
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Sites to check (from your Terraform config)
+SITES=("jeanneandtom" "jeannebriggs" "rsstomboone")
+
+echo -e "${YELLOW}🔍 Checking Drupal configuration export status...${NC}"
+
+# Function to check if config is dirty for a site
+check_config_status() {
+    local site=$1
+    
+    echo -e "${YELLOW}Checking configuration for site: $site${NC}"
+    
+    # Check if drush is available
+    if ! command -v drush &> /dev/null; then
+        echo -e "${RED}❌ Drush not found. Please install Drush to use this hook.${NC}"
+        exit 1
+    fi
+    
+    # Check if site directory exists
+    if [ ! -d "web/sites/$site" ]; then
+        echo -e "${YELLOW}⚠️  Site directory web/sites/$site not found, skipping...${NC}"
+        return 0
+    fi
+    
+    # Check config status
+    cd web
+    
+    # Use drush to check if there are configuration differences
+    if drush --uri=$site.local config:status 2>/dev/null | grep -q "differences"; then
+        echo -e "${RED}❌ Configuration changes detected for $site but not exported!${NC}"
+        echo -e "${YELLOW}Run: drush --uri=$site.local config:export${NC}"
+        return 1
+    else
+        echo -e "${GREEN}✅ Configuration up to date for $site${NC}"
+        return 0
+    fi
+    
+    cd ..
+}
+
+# Check each site
+failed_sites=()
+for site in "${SITES[@]}"; do
+    if ! check_config_status "$site"; then
+        failed_sites+=("$site")
+    fi
+done
+
+# Exit if any sites failed
+if [ ${#failed_sites[@]} -ne 0 ]; then
+    echo -e "\n${RED}❌ Configuration export required for: ${failed_sites[*]}${NC}"
+    echo -e "${YELLOW}Please export configuration and commit the changes before pushing.${NC}"
+    exit 1
+fi
+
+echo -e "\n${GREEN}✅ All site configurations are up to date!${NC}"
+exit 0

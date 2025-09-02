@@ -1,0 +1,181 @@
+#file: noinspection UndefinedAction,UndefinedParamsPresent
+name: Swap to Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_swap:
+        description: 'Type "CONFIRM" to proceed with production swap'
+        required: true
+        default: ''
+      skip_drush_deploy:
+        description: 'Skip drush deploy in production (not recommended)'
+        type: boolean
+        required: false
+        default: false
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_USE_OIDC: true
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  terraform-info:
+    runs-on: ubuntu-latest
+    outputs:
+      webapp_name: ${{ steps.tf-output.outputs.webapp_name }}
+      prod_database_names: ${{ steps.tf-output.outputs.prod_database_names }}
+      stage_slot_name: ${{ steps.tf-output.outputs.stage_slot_name }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ env.ARM_CLIENT_ID }}
+          tenant-id: ${{ env.ARM_TENANT_ID }}
+          subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.0"
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Get Terraform Outputs
+        id: tf-output
+        working-directory: terraform
+        run: |
+          echo "webapp_name=$(terraform output -raw webapp_name)" >> $GITHUB_OUTPUT
+          echo "prod_database_names=$(terraform output -json prod_database_names)" >> $GITHUB_OUTPUT
+          echo "stage_slot_name=$(terraform output -raw stage_slot_name)" >> $GITHUB_OUTPUT
+
+  swap-to-production:
+    runs-on: ubuntu-latest
+    needs: terraform-info
+    environment:
+      name: 'Production'
+      url: https://${{ needs.terraform-info.outputs.webapp_name }}.azurewebsites.net
+
+    steps:
+      - name: Validate confirmation
+        run: |
+          if [ "${{ github.event.inputs.confirm_swap }}" != "CONFIRM" ]; then
+            echo "❌ Production swap not confirmed. Please type 'CONFIRM' to proceed."
+            exit 1
+          fi
+          echo "✅ Production swap confirmed"
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ env.ARM_CLIENT_ID }}
+          tenant-id: ${{ env.ARM_TENANT_ID }}
+          subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
+
+      - name: Pre-swap health check (Stage Slot)
+        run: |
+          echo "🔍 Checking stage slot health before swap..."
+          STAGE_URL="https://${{ needs.terraform-info.outputs.webapp_name }}-${{ needs.terraform-info.outputs.stage_slot_name }}.azurewebsites.net"
+
+          for i in {1..3}; do
+            if curl -f "$STAGE_URL" --connect-timeout 10 --max-time 30; then
+              echo "✅ Stage slot is healthy"
+              break
+            else
+              echo "⚠️  Stage slot health check attempt $i failed"
+              if [ $i -eq 3 ]; then
+                echo "❌ Stage slot is not healthy. Aborting swap."
+                exit 1
+              fi
+              sleep 10
+            fi
+          done
+
+      - name: Swap deployment slots
+        run: |
+          echo "🔄 Swapping stage slot to production..."
+          echo "From: ${{ needs.terraform-info.outputs.webapp_name }}-${{ needs.terraform-info.outputs.stage_slot_name }}"
+          echo "To: ${{ needs.terraform-info.outputs.webapp_name }} (production)"
+
+          az webapp deployment slot swap \
+            --name ${{ needs.terraform-info.outputs.webapp_name }} \
+            --slot ${{ needs.terraform-info.outputs.stage_slot_name }} \
+            --target-slot production \
+            --action swap
+
+          echo "✅ Deployment slots swapped successfully!"
+          echo "🎉 Stage content is now live in production"
+
+      - name: Wait for swap to complete
+        run: |
+          echo "⏳ Waiting for swap to complete..."
+          sleep 30
+
+      - name: Run Drush Deploy on Production (Post-Swap)
+        if: ${{ github.event.inputs.skip_drush_deploy != 'true' }}
+        run: |
+          echo "🚀 Running Drush deploy commands on production slot (post-swap)..."
+
+          # Get site names from Terraform output
+          SITES=$(echo '${{ needs.terraform-info.outputs.prod_database_names }}' | jq -r 'keys[]')
+
+          for site in $SITES; do
+            echo "📦 Running drush deploy for site: $site"
+
+            # Run drush deploy on production slot (no --slot parameter = production)
+            az webapp ssh --name ${{ needs.terraform-info.outputs.webapp_name }} \
+              --command "cd /home/site/wwwroot && drush --uri=$site.local deploy -v --no-interaction" \
+              --timeout 300 \
+              || echo "⚠️  Warning: Drush deploy failed for $site"
+
+            echo "✅ Drush deploy completed for $site"
+          done
+
+          echo "🎉 All drush deploy commands completed on production!"
+
+      - name: Post-swap health check (Production)
+        run: |
+          echo "🔍 Performing post-swap health check on production..."
+          PROD_URL="https://${{ needs.terraform-info.outputs.webapp_name }}.azurewebsites.net"
+
+          for i in {1..5}; do
+            if curl -f "$PROD_URL" --connect-timeout 10 --max-time 30; then
+              echo "✅ Production health check passed!"
+              break
+            else
+              echo "⚠️  Production health check attempt $i failed, retrying..."
+              sleep 30
+            fi
+            if [ $i -eq 5 ]; then
+              echo "❌ Production health check failed after 5 attempts"
+              echo "🚨 Consider investigating or rolling back"
+              exit 1
+            fi
+          done
+
+      - name: Deployment Summary
+        run: |
+          echo "## 🎉 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Webapp**: ${{ needs.terraform-info.outputs.webapp_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Slot swapped**: ${{ needs.terraform-info.outputs.stage_slot_name }} → production" >> $GITHUB_STEP_SUMMARY
+          echo "- **Production URL**: https://${{ needs.terraform-info.outputs.webapp_name }}.azurewebsites.net" >> $GITHUB_STEP_SUMMARY
+          echo "- **Stage URL**: https://${{ needs.terraform-info.outputs.webapp_name }}-${{ needs.terraform-info.outputs.stage_slot_name }}.azurewebsites.net" >> $GITHUB_STEP_SUMMARY
+          echo "- **Drush deploy**: ${{ github.event.inputs.skip_drush_deploy != 'true' && 'Completed' || 'Skipped' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Timestamp**: $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Production deployment completed successfully!**" >> $GITHUB_STEP_SUMMARY
+
+          # Also output to console
+          echo "🎉 Production deployment completed successfully!"
+          echo "🌐 Production URL: https://${{ needs.terraform-info.outputs.webapp_name }}.azurewebsites.net"

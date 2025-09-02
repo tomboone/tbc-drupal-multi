@@ -1,0 +1,32 @@
+# Pre-commit configuration for Drupal project (Docker-aware)
+repos:
+  - repo: local
+    hooks:
+      - id: drupal-config-export-check
+        name: Check Drupal configuration export
+        entry: .githooks/check-config-export.sh
+        language: script
+        files: '^(web/sites/.*/settings\.php|web/modules/custom/.*|web/themes/custom/.*|config/.*)$'
+        pass_filenames: false
+        
+      - id: composer-validate
+        name: Validate composer.json  
+        entry: bash -c 'if [ -f "docker-compose.yml" ] && docker-compose ps | grep -q "Up"; then docker-compose exec -T web composer validate --strict; else composer validate --strict; fi'
+        language: system
+        files: composer\.(json|lock)
+        pass_filenames: false
+        
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '^(web/sites/.*/files/|vendor/)'
+      - id: end-of-file-fixer
+        exclude: '^(web/sites/.*/files/|vendor/)'
+      - id: check-yaml
+        exclude: '^(web/sites/.*/files/|vendor/)'
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: mixed-line-ending
+        exclude: '^(web/sites/.*/files/|vendor/)'
+      - id: check-merge-conflict
