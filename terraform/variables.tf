@@ -1,3 +1,13 @@
+variable "existing_vnet_name" {
+  description = "Name of the existing virtual network to use"
+  type = string
+}
+
+variable "existing_vnet_rg_name" {
+  description = "Resource group of the existing virtual network"
+  type = string
+}
+
 variable "existing_app_service_plan_name" {
   description = "Name of the existing App Service Plan to use"
   type        = string

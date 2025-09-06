@@ -1,0 +1,133 @@
+# Drush site aliases for tbc-drupal-multi
+
+# Production aliases
+prod.default:
+  host: tbc-drupal-multi.azurewebsites.net
+  uri: default
+  root: /home/site/wwwroot/web
+  options:
+    database:
+      driver: mysql
+      host: '${mysql_flexible_server_host}'
+      port: 3306
+      database: jeanneandtom
+      username: jat
+      password: '${jat_password}'
+      prefix: ''
+    ssh-options: '-o PasswordAuthentication=no'
+
+prod.jeannebriggs:
+  host: tbc-drupal-multi.azurewebsites.net
+  uri: jeannebriggs.com
+  root: /home/site/wwwroot/web
+  options:
+    database:
+      driver: mysql
+      host: '${mysql_flexible_server_host}'
+      port: 3306
+      database: jeannebriggs
+      username: jbc
+      password: '${jbc_password}'
+      prefix: ''
+    ssh-options: '-o PasswordAuthentication=no'
+
+prod.rsstomboone:
+  host: tbc-drupal-multi.azurewebsites.net
+  uri: rss.tomboone.com
+  root: /home/site/wwwroot/web
+  options:
+    database:
+      driver: mysql
+      host: '${mysql_flexible_server_host}'
+      port: 3306
+      database: rsstomboone
+      username: rsstbc
+      password: '${rsstbc_password}'
+      prefix: ''
+    ssh-options: '-o PasswordAuthentication=no'
+
+# Stage aliases
+stage.default:
+  host: tbc-drupal-multi-stage.azurewebsites.net
+  uri: default
+  root: /home/site/wwwroot/web
+  options:
+    database:
+      driver: mysql
+      host: '${mysql_flexible_server_host}'
+      port: 3306
+      database: jeanneandtom_stage
+      username: jats
+      password: '${jats_password}'
+      prefix: ''
+    ssh-options: '-o PasswordAuthentication=no'
+
+stage.jeannebriggs:
+  host: tbc-drupal-multi-stage.azurewebsites.net
+  uri: jeannebriggs.com
+  root: /home/site/wwwroot/web
+  options:
+    database:
+      driver: mysql
+      host: '${mysql_flexible_server_host}'
+      port: 3306
+      database: jeannebriggs_stage
+      username: jbcs
+      password: '${jbcs_password}'
+      prefix: ''
+    ssh-options: '-o PasswordAuthentication=no'
+
+stage.rsstomboone:
+  host: tbc-drupal-multi-stage.azurewebsites.net
+  uri: rss.tomboone.com
+  root: /home/site/wwwroot/web
+  options:
+    database:
+      driver: mysql
+      host: '${mysql_flexible_server_host}'
+      port: 3306
+      database: rsstomboone_stage
+      username: rsstbcs
+      password: '${rsstbcs_password}'
+      prefix: ''
+    ssh-options: '-o PasswordAuthentication=no'
+
+# Local aliases
+local.default:
+  uri: default
+  root: /Users/trb74/projects/tbc-drupal-multi/web
+  options:
+    database:
+      driver: mysql
+      host: localhost
+      port: 3306
+      database: jeanneandtom_local
+      username: root
+      password: ''
+      prefix: ''
+
+local.jeannebriggs:
+  uri: jeannebriggs.com
+  root: /Users/trb74/projects/tbc-drupal-multi/web
+  options:
+    database:
+      driver: mysql
+      host: localhost
+      port: 3306
+      database: jeannebriggs_local
+      username: root
+      password: ''
+      prefix: ''
+
+local.rsstomboone:
+  uri: rss.tomboone.com
+  root: /Users/trb74/projects/tbc-drupal-multi/web
+  options:
+    database:
+      driver: mysql
+      host: localhost
+      port: 3306
+      database: rsstomboone_local
+      username: root
+      password: ''
+      prefix: ''

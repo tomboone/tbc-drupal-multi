@@ -6,17 +6,11 @@ web/themes/contrib/
 web/profiles/contrib/
 web/libraries/
 
-# Ignore configuration files that may contain sensitive information.
-web/sites/*/settings.php
-web/sites/*/settings.local.php
-web/sites/*/services*.yml
+# Ignore sites folder. (App service mounts sites/ fileshare)
+web/sites
 
-# Ignore paths that contain user-generated content.
-web/sites/*/files/
-web/sites/*/private/
-
-# Ignore multi-site test environment.
-web/sites/simpletest/
+# Ignore sensitive drush config values
+drush/drush-config.yml
 
 # Ignore common local development artifacts.
 .idea/

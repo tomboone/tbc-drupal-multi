@@ -11,7 +11,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-SITES=("jeanneandtom" "jeannebriggs" "rsstomboone")
+SITES=("default" "jeannebriggs.com" "rss.tomboone.com")
 
 echo -e "${YELLOW}🔍 Checking Drupal configuration export...${NC}"
 
@@ -44,13 +44,13 @@ failed=0
 
 for site in "${SITES[@]}"; do
     echo -e "Checking site: ${YELLOW}$site${NC}"
-    
+
     # Skip if site doesn't exist yet
     if [ ! -d "web/sites/$site" ]; then
         echo -e "${YELLOW}⚠️  Site $site not found, skipping${NC}"
         continue
     fi
-    
+
     # Check if config directory exists
     config_dir="config/$site"
     if [ ! -d "$config_dir" ]; then
@@ -59,7 +59,7 @@ for site in "${SITES[@]}"; do
         failed=1
         continue
     fi
-    
+
     # Check if config directory has files
     if [ -z "$(ls -A $config_dir 2>/dev/null)" ]; then
         echo -e "${RED}❌ Config directory $config_dir is empty for $site${NC}"
@@ -67,7 +67,7 @@ for site in "${SITES[@]}"; do
         failed=1
         continue
     fi
-    
+
     # Basic check: ensure core.extension.yml exists
     if [ ! -f "$config_dir/core.extension.yml" ]; then
         echo -e "${RED}❌ core.extension.yml missing in $config_dir${NC}"
@@ -75,7 +75,7 @@ for site in "${SITES[@]}"; do
         failed=1
         continue
     fi
-    
+
     echo -e "${GREEN}✅ Config appears exported for $site${NC}"
 done
 
