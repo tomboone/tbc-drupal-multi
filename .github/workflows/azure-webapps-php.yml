@@ -37,7 +37,7 @@ jobs:
       stage_slot_name: ${{ steps.tf-output.outputs.stage_slot_name }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Azure Login
         uses: azure/login@v1
@@ -81,7 +81,7 @@ jobs:
       PHP_VERSION: ${{ needs.terraform.outputs.php_version }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
