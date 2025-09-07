@@ -90,62 +90,15 @@ jobs:
           coverage: none
           tools: composer:v2
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate --strict
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v4
-        with:
-          path: vendor/
-          key: composer-${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            composer-${{ runner.os }}-
-
       - name: Install Composer dependencies
         run: |
-          composer install --no-dev --optimize-autoloader --no-interaction --no-progress --prefer-dist
-          composer dump-autoload --optimize --classmap-authoritative
-
-      - name: Clean up development files
-        run: |
-          # Remove development and CI files
-          rm -rf .git/ .github/ tests/ .gitignore
-          rm -f README.md CHANGELOG.md phpunit.xml .phpunit.xml
-          rm -f package.json package-lock.json
-
-      - name: Set production file permissions
-        run: |
-          # Set proper permissions for Drupal
-          find . -type f -exec chmod 644 {} \;
-          find . -type d -exec chmod 755 {} \;
-
-          # Make sure files directory is writable
-          if [ -d "web/sites/default/files" ]; then
-            chmod -R 775 web/sites/default/files/
-          fi
-
-      - name: Create deployment info
-        run: |
-          echo "Build Date: $(date)" > deployment-info.txt
-          echo "Commit: ${{ github.sha }}" >> deployment-info.txt
-          echo "Branch: ${{ github.ref_name }}" >> deployment-info.txt
-          echo "Build Number: ${{ github.run_number }}" >> deployment-info.txt
+          composer install --no-dev --prefer-dist
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: php-app
-          path: |
-            .
-            !node_modules/
-            !.git/
-          retention-days: 30
-          compression-level: 6
-
-      - name: Debug MySQL module
-        run: |
-          ls -la web/core/modules/mysql/src/Driver/Database/mysql/
-          grep -r "mysql.*Driver.*Connection" vendor/composer/ || echo "Not in autoloader (this is normal)"
+          path: .
 
   deploy:
     name: Deploy to Azure
