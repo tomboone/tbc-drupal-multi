@@ -113,15 +113,6 @@ jobs:
           rm -f README.md CHANGELOG.md phpunit.xml .phpunit.xml
           rm -f package.json package-lock.json
 
-          # Remove Drupal development files
-          find . -name "*.orig" -delete
-          find . -name "*.tmp" -delete
-          find . -name ".DS_Store" -delete
-          find . -name "Thumbs.db" -delete
-
-          # Remove empty directories
-          find . -type d -empty -delete 2>/dev/null || true
-
       - name: Set production file permissions
         run: |
           # Set proper permissions for Drupal
@@ -150,6 +141,11 @@ jobs:
             !.git/
           retention-days: 30
           compression-level: 6
+
+      - name: Debug MySQL module
+        run: |
+          ls -la web/core/modules/mysql/src/Driver/Database/mysql/
+          grep -r "mysql.*Driver.*Connection" vendor/composer/ || echo "Not in autoloader (this is normal)"
 
   deploy:
     name: Deploy to Azure
