@@ -111,7 +111,7 @@ jobs:
           # Remove development and CI files
           rm -rf .git/ .github/ tests/ .gitignore
           rm -f README.md CHANGELOG.md phpunit.xml .phpunit.xml
-          rm -f composer.json composer.lock package.json package-lock.json
+          rm -f package.json package-lock.json
 
           # Remove Drupal development files
           find . -name "*.orig" -delete
@@ -121,12 +121,6 @@ jobs:
 
           # Remove empty directories
           find . -type d -empty -delete 2>/dev/null || true
-
-          # Clean Drupal cache and temp files
-          rm -rf web/sites/default/files/php/
-          rm -rf web/sites/default/files/css/
-          rm -rf web/sites/default/files/js/
-          rm -rf private/temp/
 
       - name: Set production file permissions
         run: |
