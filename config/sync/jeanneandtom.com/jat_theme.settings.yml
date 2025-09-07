@@ -20,4 +20,11 @@ logo:
 schemas:
   bootstrap: 8000
   jat_theme: 8000
-cdn_provider: ''
+cdn_provider: jsdelivr
+table_responsive: '-1'
+cdn_theme: ''
+cdn_cache_ttl_assets: 315360000
+cdn_cache_ttl_library: 315360000
+apply: Apply
+reset_http_request_cache: ''
+table: ''
