@@ -148,7 +148,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "storage" {
 }
 
 # Note: Subnet delegation needs to be added to the existing subnet
-# Since we're using a data source for an existing subnet, 
+# Since we're using a data source for an existing subnet,
 # the delegation should be added via Azure CLI or in the VNet project:
 # az network vnet subnet update --resource-group <vnet-rg> --vnet-name <vnet-name> --name IntegrationSubnet --delegations Microsoft.Web/serverFarms
 
@@ -170,6 +170,7 @@ resource "azurerm_linux_web_app" "main" {
   virtual_network_subnet_id = data.azurerm_subnet.integration.id
 
   site_config {
+    app_command_line = "cd /home/site/wwwroot/deployment && ./startup.sh"
     always_on = true
     application_stack {
       php_version = "8.4"
@@ -201,6 +202,7 @@ resource "azurerm_linux_web_app_slot" "stage" {
   virtual_network_subnet_id = data.azurerm_subnet.integration.id
 
   site_config {
+    app_command_line = "cd /home/site/wwwroot/deployment && ./startup.sh"
     always_on = true
     application_stack {
       php_version = "8.4"
