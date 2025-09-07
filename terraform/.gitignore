@@ -12,5 +12,5 @@ override.tf.json
 terraform.rc
 tfplan
 
-# Backend configuration (if contains sensitive data)
-backend.tf
+# Backend configuration with sensitive values
+backend.hcl
