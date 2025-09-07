@@ -1,31 +1,37 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
-
 version: 2
 updates:
   - package-ecosystem: "composer" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
-    ignore:
-      - dependency-name: "drupal/core*"
-        update-types: ["version-update:semver-major"]
-    groups:
-      drupal-core:
-        patterns:
-          - "drupal/core"
-          - "drupal/core-composer-scaffold"
-          - "drupal/core-recommended"
-          - "drupal/core-dev"
+      day: "saturday"
+      time: "09:00"
+      timezone: "America/New_York"
+    target-branch: "feature/dependency-updates"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
 
   - package-ecosystem: "github-actions"
-    directory: "/"
+    directory: "/.github/workflows"
     schedule:
       interval: "weekly"
+      day: "saturday"
+      time: "09:00"
+      timezone: "America/New_York"
+    target-branch: "feature/dependency-updates"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
 
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: "terraform"
+    directory: "/terraform"
     schedule:
       interval: "weekly"
+      day: "saturday"
+      time: "09:00"
+      timezone: "America/New_York"
+    target-branch: "feature/dependency-updates"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
