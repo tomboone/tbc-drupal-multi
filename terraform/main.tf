@@ -192,6 +192,12 @@ resource "azurerm_linux_web_app" "main" {
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.main.connection_string
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.main.instrumentation_key
   }
+
+  sticky_settings {
+    app_setting_names = [
+      "DRUPAL_ENV",
+    ]
+  }
 }
 
 # Create staging deployment slot
