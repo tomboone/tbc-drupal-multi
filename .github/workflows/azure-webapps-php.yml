@@ -148,7 +148,7 @@ jobs:
           echo "Build Number: ${{ github.run_number }}" >> deployment-info.txt
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: php-app
           path: |
