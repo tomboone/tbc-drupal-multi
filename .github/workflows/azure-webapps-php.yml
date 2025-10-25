@@ -95,7 +95,7 @@ jobs:
           composer install --no-dev --prefer-dist
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: php-app
           path: .
