@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8e5e1bd90988eb7110430c41e3ec7b5",
+    "content-hash": "63d52d2da1fa8c3b50e153b4e69093c3",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3842,7 +3842,7 @@
         },
         {
             "name": "fgelinas/timepicker",
-            "version": "dev-master",
+            "version": "1.0.0",
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/fgelinas/timepicker/archive/refs/heads/master.zip"
@@ -14719,8 +14719,7 @@
         "drupal/feeds": 10,
         "drupal/feeds_tamper": 10,
         "drupal/metatag": 5,
-        "drupal/upgrade_status": 15,
-        "fgelinas/timepicker": 20
+        "drupal/upgrade_status": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,
