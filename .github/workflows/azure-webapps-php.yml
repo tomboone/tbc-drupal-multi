@@ -92,11 +92,14 @@ jobs:
         run: |
           composer install --no-dev --prefer-dist
 
+      - name: Create deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v6
         with:
           name: php-app
-          path: .
+          path: deploy.zip
 
   deploy:
     name: Deploy to Azure
@@ -119,16 +122,6 @@ jobs:
         with:
           name: php-app
 
-      - name: Clean stale files from wwwroot
-        run: |
-          az webapp config set --name ${{ env.APP_NAME }} --resource-group ${{ env.APP_NAME }}-rg --startup-file ""
-          az webapp restart --name ${{ env.APP_NAME }} --resource-group ${{ env.APP_NAME }}-rg
-          sleep 10
-          az webapp ssh --name ${{ env.APP_NAME }} --resource-group ${{ env.APP_NAME }}-rg --command "rm -rf /home/site/wwwroot/web/modules /home/site/wwwroot/vendor" --timeout 60 || true
-
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.APP_NAME }}
-          package: .
+        run: |
+          az webapp deploy --name ${{ env.APP_NAME }} --resource-group ${{ env.APP_NAME }}-rg --src-path deploy.zip --type zip --clean true
