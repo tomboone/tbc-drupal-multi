@@ -92,14 +92,11 @@ jobs:
         run: |
           composer install --no-dev --prefer-dist
 
-      - name: Create deployment package
-        run: zip -r deploy.zip . -x '*.git*'
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v6
         with:
           name: php-app
-          path: deploy.zip
+          path: .
 
   deploy:
     name: Deploy to Azure
@@ -123,5 +120,8 @@ jobs:
           name: php-app
 
       - name: Deploy to Azure Web App
-        run: |
-          az webapp deploy --name ${{ env.APP_NAME }} --resource-group ${{ env.APP_NAME }}-rg --src-path deploy.zip --type zip --clean true
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.APP_NAME }}
+          package: .
