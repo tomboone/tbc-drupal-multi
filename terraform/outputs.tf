@@ -39,11 +39,6 @@ output "prod_database_names" {
   value       = local.prod_databases
 }
 
-output "stage_database_names" {
-  description = "Map of staging site names to database names (with _stage suffix)"
-  value       = { for site, user in local.stage_databases : "${site}_stage" => user }
-}
-
 output "all_database_connections" {
   description = "All database connection details"
   value = {
@@ -56,11 +51,6 @@ output "all_database_connections" {
     }
   }
   sensitive = true
-}
-
-output "stage_slot_name" {
-  description = "Name of the staging deployment slot"
-  value       = azurerm_linux_web_app_slot.stage.name
 }
 
 # Storage account details

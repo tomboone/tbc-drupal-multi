@@ -26,17 +26,9 @@ locals {
     rsstomboone  = "rsstbc"
   }
 
-  # Staging sites and their database users
-  stage_databases = {
-    jeanneandtom = "jats",
-    jeannebriggs = "jbcs",
-    rsstomboone  = "rsstbcs"
-  }
-
-  # All databases to create (combines prod + stage)
+  # All databases to create (combines prod)
   all_databases = merge(
     { for site, user in local.prod_databases : site => user },
-    { for site, user in local.stage_databases : "${site}_stage" => user }
   )
 }
 
@@ -106,12 +98,6 @@ resource "azurerm_storage_share" "sites_share_prod" {
   name                 = "sites-prod"
   storage_account_id = azurerm_storage_account.sites_storage.id
   quota                = 10
-}
-
-resource "azurerm_storage_share" "sites_share_stage" {
-  name               = "sites-stage"
-  storage_account_id = azurerm_storage_account.sites_storage.id
-  quota              = 10
 }
 
 # Private endpoint for Storage Account
@@ -199,36 +185,3 @@ resource "azurerm_linux_web_app" "main" {
     ]
   }
 }
-
-# Create staging deployment slot
-resource "azurerm_linux_web_app_slot" "stage" {
-  name           = "stage"
-  app_service_id = azurerm_linux_web_app.main.id
-
-  virtual_network_subnet_id = data.azurerm_subnet.integration.id
-
-  site_config {
-    app_command_line = "cd /home/site/wwwroot/deployment && ./startup.sh"
-    always_on = true
-    application_stack {
-      php_version = "8.4"
-    }
-  }
-
-  storage_account {
-    name         = "sites-storage"
-    type         = "AzureFiles"
-    account_name = azurerm_storage_account.sites_storage.name
-    access_key   = azurerm_storage_account.sites_storage.primary_access_key
-    share_name   = azurerm_storage_share.sites_share_stage.name
-    mount_path   = "/home/site/wwwroot/web/sites"
-  }
-
-  app_settings = {
-    "https_only" = "true"
-    "DRUPAL_ENV" = "stage"
-    "APPLICATIONINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.main.connection_string
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.main.instrumentation_key
-  }
-}
-
