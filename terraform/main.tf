@@ -175,6 +175,7 @@ resource "azurerm_linux_web_app" "main" {
   app_settings = {
     "https_only" = "true"
     "DRUPAL_ENV" = "prod"
+    "WEBSITE_RUN_FROM_PACKAGE" = "1"
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.main.connection_string
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.main.instrumentation_key
   }
