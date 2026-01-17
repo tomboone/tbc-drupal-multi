@@ -6,5 +6,5 @@ cp deployment/default /etc/nginx/sites-enabled/default
 service nginx restart
 
 for site in default jeannebriggs.com rss.tomboone.com; do
-  php vendor/bin/drush deploy --uri=$site
+  vendor/bin/drush deploy --uri=$site
 done

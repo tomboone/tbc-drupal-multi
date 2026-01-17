@@ -156,7 +156,7 @@ resource "azurerm_linux_web_app" "main" {
   virtual_network_subnet_id = data.azurerm_subnet.integration.id
 
   site_config {
-    app_command_line = "cd /home/site/wwwroot/deployment && bash startup.sh"
+    app_command_line = "cd /home/site/wwwroot/deployment && ./startup.sh"
     always_on = true
     application_stack {
       php_version = "8.4"
@@ -175,7 +175,6 @@ resource "azurerm_linux_web_app" "main" {
   app_settings = {
     "https_only" = "true"
     "DRUPAL_ENV" = "prod"
-    "WEBSITE_RUN_FROM_PACKAGE" = "1"
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.main.connection_string
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.main.instrumentation_key
   }
