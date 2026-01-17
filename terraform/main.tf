@@ -156,7 +156,7 @@ resource "azurerm_linux_web_app" "main" {
   virtual_network_subnet_id = data.azurerm_subnet.integration.id
 
   site_config {
-    app_command_line = "cd /home/site/wwwroot/deployment && ./startup.sh"
+    app_command_line = "cd /home/site/wwwroot/deployment && bash startup.sh"
     always_on = true
     application_stack {
       php_version = "8.4"
