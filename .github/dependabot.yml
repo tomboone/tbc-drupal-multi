@@ -1,21 +1,5 @@
 version: 2
 updates:
-  - package-ecosystem: "composer" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "weekly"
-      day: "saturday"
-      time: "09:00"
-      timezone: "America/New_York"
-    commit-message:
-      prefix: "deps"
-      include: "scope"
-    groups:
-      php:
-        applies-to: version-updates
-        update-types:
-          - "minor"
-          - "patch"
 
   - package-ecosystem: "terraform" # See documentation for possible values
     directory: "/terraform" # Location of package manifests
