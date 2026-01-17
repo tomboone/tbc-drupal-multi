@@ -30,7 +30,7 @@
         "composer/installers": "^2.0",
         "drupal/address": "^2.0@beta",
         "drupal/admin_toolbar": "^3.3",
-        "drupal/bootstrap": "^3.20",
+        "drupal/bootstrap": "^5.0",
         "drupal/bootstrap_barrio": "^5.5",
         "drupal/bootstrap_library": "^2.0",
         "drupal/captcha": "^2.0.7",
