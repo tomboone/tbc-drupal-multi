@@ -17,3 +17,5 @@ drush/drush-config.yml
 .DS_Store
 .env
 /.gitattributes
+
+docs/plans

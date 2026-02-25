@@ -1,0 +1,199 @@
+version: "3"
+
+dotenv:
+  - .env
+
+vars:
+  INFRA_DIR: ../tbc-localdev-infra
+  AZURE_STORAGE_ACCOUNT: '{{.AZURE_STORAGE_ACCOUNT | default ""}}'
+  AZURE_FILE_SHARE: '{{.AZURE_FILE_SHARE | default ""}}'
+  SITES: "jat:default:default jbc:jeannebriggs.com:jeannebriggs rss:rss.tomboone.com:rsstomboone"
+  EXEC: docker compose exec -T tbc_drupal_php
+
+tasks:
+
+  # ---------------------------------------------------------------------------
+  # Infrastructure (delegated to infra project)
+  # ---------------------------------------------------------------------------
+
+  infra:up:
+    desc: Start infrastructure containers (traefik, mysql, postgres, mailpit)
+    cmd: task --dir {{.INFRA_DIR}} up
+
+  infra:down:
+    desc: Stop infrastructure containers
+    cmd: task --dir {{.INFRA_DIR}} down
+
+  infra:status:
+    desc: Show infrastructure container status
+    cmd: task --dir {{.INFRA_DIR}} status
+
+  # ---------------------------------------------------------------------------
+  # Docker lifecycle
+  # ---------------------------------------------------------------------------
+
+  up:
+    desc: Start all containers (ensures infrastructure is running first)
+    deps:
+      - infra:up
+    cmd: docker compose up -d
+
+  down:
+    desc: Stop all containers
+    cmd: docker compose down
+
+  restart:
+    desc: Restart all containers
+    cmds:
+      - task: down
+      - task: up
+
+  logs:
+    desc: Follow container logs
+    cmd: docker compose logs -f
+
+  status:
+    desc: Show container status
+    cmd: docker compose ps
+
+  # ---------------------------------------------------------------------------
+  # Composer
+  # ---------------------------------------------------------------------------
+
+  composer:install:
+    desc: Install Composer dependencies
+    cmd: "{{.EXEC}} composer install"
+
+  composer:outdated:
+    desc: Show outdated Composer packages
+    cmd: "{{.EXEC}} composer outdated -D"
+
+  composer:update:
+    desc: Update Composer packages
+    cmd: "{{.EXEC}} composer update"
+
+  # ---------------------------------------------------------------------------
+  # Drush (all sites by default, or pass short name: task drush:cr -- jat)
+  # ---------------------------------------------------------------------------
+
+  drush:cr:
+    desc: "Cache rebuild [all sites, or: task drush:cr -- jat]"
+    cmd: |
+      for entry in {{.SITES}}; do
+        short=$(echo "$entry" | cut -d: -f1)
+        uri=$(echo "$entry" | cut -d: -f2)
+        if [ "{{.CLI_ARGS}}" = "" ] || [ "{{.CLI_ARGS}}" = "$short" ]; then
+          echo "==> Cache rebuild: $uri"
+          {{.EXEC}} drush --uri="$uri" cr
+        fi
+      done
+
+  drush:updb:
+    desc: "Run database updates [all sites, or: task drush:updb -- jat]"
+    cmd: |
+      for entry in {{.SITES}}; do
+        short=$(echo "$entry" | cut -d: -f1)
+        uri=$(echo "$entry" | cut -d: -f2)
+        if [ "{{.CLI_ARGS}}" = "" ] || [ "{{.CLI_ARGS}}" = "$short" ]; then
+          echo "==> Database updates: $uri"
+          {{.EXEC}} drush --uri="$uri" updb -y
+        fi
+      done
+
+  drush:cim:
+    desc: "Config import [all sites, or: task drush:cim -- jat]"
+    cmd: |
+      for entry in {{.SITES}}; do
+        short=$(echo "$entry" | cut -d: -f1)
+        uri=$(echo "$entry" | cut -d: -f2)
+        if [ "{{.CLI_ARGS}}" = "" ] || [ "{{.CLI_ARGS}}" = "$short" ]; then
+          echo "==> Config import: $uri"
+          {{.EXEC}} drush --uri="$uri" cim -y
+        fi
+      done
+
+  drush:cex:
+    desc: "Config export [all sites, or: task drush:cex -- jat]"
+    cmd: |
+      for entry in {{.SITES}}; do
+        short=$(echo "$entry" | cut -d: -f1)
+        uri=$(echo "$entry" | cut -d: -f2)
+        if [ "{{.CLI_ARGS}}" = "" ] || [ "{{.CLI_ARGS}}" = "$short" ]; then
+          echo "==> Config export: $uri"
+          {{.EXEC}} drush --uri="$uri" cex -y
+        fi
+      done
+
+  drush:deploy:
+    desc: "Run drush deploy [all sites, or: task drush:deploy -- jat]"
+    cmd: |
+      for entry in {{.SITES}}; do
+        short=$(echo "$entry" | cut -d: -f1)
+        uri=$(echo "$entry" | cut -d: -f2)
+        if [ "{{.CLI_ARGS}}" = "" ] || [ "{{.CLI_ARGS}}" = "$short" ]; then
+          echo "==> Deploy: $uri"
+          {{.EXEC}} drush --uri="$uri" deploy
+        fi
+      done
+
+  drush:status:
+    desc: "Show Drupal status [all sites, or: task drush:status -- jat]"
+    cmd: |
+      for entry in {{.SITES}}; do
+        short=$(echo "$entry" | cut -d: -f1)
+        uri=$(echo "$entry" | cut -d: -f2)
+        if [ "{{.CLI_ARGS}}" = "" ] || [ "{{.CLI_ARGS}}" = "$short" ]; then
+          echo "==> Status: $uri"
+          {{.EXEC}} drush --uri="$uri" status
+        fi
+      done
+
+  # ---------------------------------------------------------------------------
+  # Sync from production
+  # Requires: drush aliases configured in drush/drush-config.yml (see drush/drush-config.example.yml)
+  # ---------------------------------------------------------------------------
+
+  sync:db:
+    desc: "Sync databases from production [all sites, or: task sync:db -- jat]"
+    cmd: |
+      for entry in {{.SITES}}; do
+        short=$(echo "$entry" | cut -d: -f1)
+        uri=$(echo "$entry" | cut -d: -f2)
+        alias=$(echo "$entry" | cut -d: -f3)
+        if [ "{{.CLI_ARGS}}" = "" ] || [ "{{.CLI_ARGS}}" = "$short" ]; then
+          echo "==> Syncing $uri from production..."
+          {{.EXEC}} drush sql:sync @prod.${alias} @local.${alias} -y
+          echo "==> Running database updates: $uri"
+          {{.EXEC}} drush --uri="$uri" updb -y
+          echo "==> Clearing cache: $uri"
+          {{.EXEC}} drush --uri="$uri" cr
+        fi
+      done
+      echo "Database sync complete."
+
+  sync:files:
+    desc: "Download site files from Azure File Share [all sites, or: task sync:files -- jat]"
+    vars:
+      SITE_DIRS: "jat:default jbc:jeannebriggs.com rss:rss.tomboone.com"
+    preconditions:
+      - sh: test -n "{{.AZURE_STORAGE_ACCOUNT}}"
+        msg: "AZURE_STORAGE_ACCOUNT is not set. Set it in .env or export it."
+      - sh: test -n "{{.AZURE_FILE_SHARE}}"
+        msg: "AZURE_FILE_SHARE is not set. Set it in .env or export it."
+      - sh: command -v az
+        msg: "Azure CLI (az) is not installed."
+    cmd: |
+      for entry in {{.SITE_DIRS}}; do
+        short=$(echo "$entry" | cut -d: -f1)
+        dir=$(echo "$entry" | cut -d: -f2)
+        if [ "{{.CLI_ARGS}}" = "" ] || [ "{{.CLI_ARGS}}" = "$short" ]; then
+          echo "==> Downloading files for sites/$dir/files/..."
+          mkdir -p web/sites/$dir/files
+          az storage file download-batch \
+            --account-name "{{.AZURE_STORAGE_ACCOUNT}}" \
+            --source "{{.AZURE_FILE_SHARE}}/sites/$dir/files" \
+            --destination "web/sites/$dir/files" \
+            --no-progress
+        fi
+      done
+      echo "File sync complete."
