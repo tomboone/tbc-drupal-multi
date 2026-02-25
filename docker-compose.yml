@@ -16,7 +16,7 @@ services:
     image: nginx:latest
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.tbc_nginx.rule=Host(`jat.localhost`, `jbc.localhost`, `rss.tbc.localhost`)"
+      - "traefik.http.routers.tbc_nginx.rule=Host(`jat.localhost`) || Host(`jbc.localhost`) || Host(`rss.tbc.localhost`)"
       - "traefik.http.routers.tbc_nginx.tls=true"
       - "traefik.http.routers.tbc_nginx.entrypoints=websecure"
     volumes:
