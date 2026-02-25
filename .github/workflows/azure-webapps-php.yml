@@ -4,6 +4,12 @@ name: Build and deploy PHP app to Azure Web App
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'composer.json'
+      - 'composer.lock'
+      - 'web/**'
+      - 'config/**'
+      - 'terraform/**'
   workflow_dispatch:
 
 env:
