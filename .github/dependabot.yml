@@ -34,3 +34,28 @@ updates:
         update-types:
           - "minor"
           - "patch"
+
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "09:00"
+      timezone: "America/New_York"
+    versioning-strategy: increase
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    groups:
+      composer-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # Pin Drupal core to 10.x
+      - dependency-name: "drupal/core-*"
+        update-types: ["version-update:semver-major"]
+      # Pin Bootstrap theme to 3.x
+      - dependency-name: "drupal/bootstrap"
+        update-types: ["version-update:semver-major"]
