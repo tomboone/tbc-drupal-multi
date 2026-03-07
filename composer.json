@@ -35,8 +35,8 @@
         "drupal/bootstrap_library": "^2.0",
         "drupal/captcha": "^2.0.7",
         "drupal/content_access": "^2.1@RC",
-        "drupal/core-composer-scaffold": "^10.0",
-        "drupal/core-recommended": "^10.0",
+        "drupal/core-composer-scaffold": "^10.6",
+        "drupal/core-recommended": "^10.6",
         "drupal/ctools": "^4.0",
         "drupal/devel": "^5.1",
         "drupal/devel_kint_extras": "^1.1",
@@ -59,7 +59,7 @@
     },
     "require-dev": {
         "behat/mink": "^1.11",
-        "drupal/core-dev": "^10.0",
+        "drupal/core-dev": "^10.6",
         "phpspec/prophecy-phpunit": "^2.1"
     },
     "conflict": {
